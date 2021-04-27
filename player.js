@@ -21,11 +21,22 @@ class Player {
     c.fill()
   }
 }
-const x = canvas.width /2
-const y = canvas.height - 10
+let x = canvas.width /2
+let y = canvas.height - 10
 
 const player = new Player(x, y, 10, 'green')
 player.draw()
+
+document.addEventListener('keydown', function(e){
+  switch (e.keyCode){
+    case 37:
+    player.x += -10
+    break;
+    case 39:
+    player.x += 10
+    break;
+  }
+})
 
 
 class Projectile {
@@ -79,8 +90,8 @@ function spawnObjects(){
   setInterval(()=> {
     const x = Math.random() * canvas.width
     const y = 0
-    const radius = 30
-    const color = 'pink'
+    const radius = 20
+    const color = 'blue'
     const velocity = {x: 0, y: 1}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
   }, 1000)
@@ -104,7 +115,8 @@ function animate(){
 }
 
 
-addEventListener('keydown', (event) => {
+addEventListener('keydown', function(e) {
+  if (e.keyCode === 32)
   projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
 })
 
