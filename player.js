@@ -122,6 +122,19 @@ function animate(){
   fallingObjects.forEach((objects)=>{
     objects.update()
   })
+
+  fallingObjects.forEach((obj, objIdx) => {
+    obj.update()
+
+    projectiles.forEach((project, projIdx) => {
+      let  distance = Math.hypot(project.x - obj.x, project.y - obj.y)
+
+      if (distance - obj.radius - project.radius < 1){
+        fallingObjects.splice(objIdx, 1)
+        projectiles.splice(projIdx, 1)
+      }
+    })
+  })
 }
 
 
