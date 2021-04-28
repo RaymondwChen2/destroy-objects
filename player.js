@@ -5,7 +5,7 @@ const c = canvas.getContext('2d')
 canvas.width = 500;
 canvas.height = 500;
 
-
+// ###################### Player #####################
 class Player {
   constructor(x, y, radius, color){
     this.x = x
@@ -31,24 +31,34 @@ document.addEventListener('keydown', function(e){
   switch (e.keyCode){
     case 37:
     player.x += -10
+    x += -10
     break;
     case 39:
     player.x += 10
+    x += 10
     break;
+  }
+  if (player.x > 490){
+    x = 490
+    player.x = 490
+  } 
+  if (player.x < 10){
+    x = 10
+    player.x = 10
   }
 })
 
-
+// ################ Projectile ####################
 class Projectile {
   constructor(x, y, radius, color, velocity){
-
+    
     this.x = x
     this.y = y
     this.radius = radius
     this.color = color
     this.velocity = velocity
   }
-
+  
   draw(){
     c.beginPath()
     c.arc(this.x, this.y, this.radius, 0 , Math.PI * 2, false)
@@ -61,8 +71,9 @@ class Projectile {
     this.y = this.y + this.velocity.y
   }
 }
+const projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2});
 
-
+// ################# FallingObjects  ####################
 class FallingObjects {
   constructor(x, y, radius, color, velocity){
 
@@ -72,7 +83,7 @@ class FallingObjects {
     this.color = color
     this.velocity = velocity
   }
-
+  
   draw(){
     c.beginPath()
     c.arc(this.x, this.y, this.radius, 0 , Math.PI * 2, false)
@@ -94,10 +105,9 @@ function spawnObjects(){
     const color = 'blue'
     const velocity = {x: 0, y: 1}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
-  }, 1000)
+  }, 1500)
 }
 
-const projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2});
 const projectiles = []
 const fallingObjects = []
 
