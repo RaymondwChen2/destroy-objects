@@ -85,7 +85,7 @@ function spawnObjects(){
     const y = 0
     const radius = 20
     const color = 'blue'
-    const velocity = {x: 0, y: .5}
+    const velocity = {x: 0, y: 1}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
   }, 2000)
 }
