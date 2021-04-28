@@ -1,6 +1,7 @@
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
+const playerScore = document.querySelector('#score')
     
 canvas.width = 500;
 canvas.height = 500;
@@ -27,26 +28,7 @@ let y = canvas.height - 10
 const player = new Player(x, y, 10, 'green')
 player.draw()
 
-document.addEventListener('keydown', function(e){
-  switch (e.keyCode){
-    case 37:
-    player.x += -10
-    x += -10
-    break;
-    case 39:
-    player.x += 10
-    x += 10
-    break;
-  }
-  if (player.x > 490){
-    x = 490
-    player.x = 490
-  } 
-  if (player.x < 10){
-    x = 10
-    player.x = 10
-  }
-})
+
 
 // ################ Projectile ####################
 class Projectile {
@@ -103,16 +85,18 @@ function spawnObjects(){
     const y = 0
     const radius = 20
     const color = 'blue'
-    const velocity = {x: 0, y: 1}
+    const velocity = {x: 0, y: .5}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
-  }, 1500)
+  }, 2000)
 }
 
 const projectiles = []
 const fallingObjects = []
 
+let animation;
+let score = 0;
 function animate(){
-  requestAnimationFrame(animate)
+  animation = requestAnimationFrame(animate)
   c.clearRect(0, 0, canvas.width, canvas.height)
   player.draw()
   projectiles.forEach((projectile => {
@@ -126,21 +110,50 @@ function animate(){
   fallingObjects.forEach((obj, objIdx) => {
     obj.update()
 
+    if (obj.y === 470){
+      cancelAnimationFrame(animation)
+    }
+
     projectiles.forEach((project, projIdx) => {
       let  distance = Math.hypot(project.x - obj.x, project.y - obj.y)
 
+// ######### removing falling object and projectile also gain points ########
       if (distance - obj.radius - project.radius < 1){
         fallingObjects.splice(objIdx, 1)
         projectiles.splice(projIdx, 1)
+        score += 100
+        console.log(score)
+        playerScore.innerHTML = Number(score)
       }
     })
   })
 }
-
+// ############### space bar pressed #######################
 
 addEventListener('keydown', function(e) {
   if (e.keyCode === 32)
   projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
+})
+// ############# left or right button pressed #################
+document.addEventListener('keydown', function(e){
+  switch (e.keyCode){
+    case 37:
+    player.x += -10
+    x += -10
+    break;
+    case 39:
+    player.x += 10
+    x += 10
+    break;
+  }
+  if (player.x > 490){
+    x = 490
+    player.x = 490
+  } 
+  if (player.x < 10){
+    x = 10
+    player.x = 10
+  }
 })
 
 animate()
