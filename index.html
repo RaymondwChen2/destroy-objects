@@ -3,16 +3,21 @@
   <div id='modal-container'>
     <div id='modal'>
       <h1>User Instructions</h1>
-      <p>Destroy the object before it touches the ground</p>
-      <p>Use the left arrow key to move left</p>
-      <p>Use the right arrow key to move right</p>
-      <p>Press the spacebar to shoot</p>
+      <div class='instruction-div'>
+          <p>-Destroy the objects before it touches the ground-</p>
+          <p>-Use the left arrow key to move left-</p>
+          <p>-Use the right arrow key to move right-</p>
+          <p>-Press the spacebar to shoot-</p>
+          <p>-Press "P" to paused-</p>
+          <p>-Press "R" to reset-</p>
+      </div>
     </div>
     <div id='game-over'>
       <h1>Game Over</h1>
-      <div>Score: <span><span id='score'>0</span></span> </div>
+      <div>Score: <span><span id='game-over-score'>0</span></span> </div>
       <p>Click screen to restart</p>
     </div>
+    <div id='pause'>Paused</div>
   </div>
   <canvas class='classCanvas'>
   </canvas>

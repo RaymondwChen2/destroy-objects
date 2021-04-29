@@ -5,6 +5,10 @@ body{
   margin: 0;
 }
 
+canvas{
+  border: rgb(24, 23, 23) solid 5px
+}
+
 .classCanvas{
   display: flex;
   background-color: black;
@@ -32,6 +36,25 @@ body{
   color: white;
   width: 500;
   height: 500;
+}
+
+#pause{
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  width: 500;
+  height: 500;
+}
+
+.instruction-div{
+  display: flex;
+  flex-direction: column;
+  font-size: 12;
+  color: yellow
 }
 
 .score{

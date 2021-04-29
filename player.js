@@ -3,6 +3,9 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
 const playerScore = document.querySelector('#score')
 const gameOver = document.querySelector('#game-over')
+const gameOverScore = document.querySelector('#game-over-score')
+let gamePaused = true
+let over = true
 
     
 canvas.width = 500;
@@ -27,10 +30,8 @@ class Player {
 let x = canvas.width /2
 let y = canvas.height - 10
 
-const player = new Player(x, y, 10, 'green')
+let player = new Player(x, y, 10, 'green')
 player.draw()
-
-
 
 // ################ Projectile ####################
 class Projectile {
@@ -55,12 +56,11 @@ class Projectile {
     this.y = this.y + this.velocity.y
   }
 }
-const projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2});
+let projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2});
 
 // ################# FallingObjects  ####################
 class FallingObjects {
   constructor(x, y, radius, color, velocity){
-
     this.x = x
     this.y = y
     this.radius = radius
@@ -89,12 +89,11 @@ function spawnObjects(){
     const color = 'blue'
     const velocity = {x: 0, y: 1}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
-  }, 2000)
+  }, 1000)
 }
 
-const projectiles = []
-const fallingObjects = []
-
+let projectiles = []
+let fallingObjects = []
 let animation;
 let score = 0;
 function animate(){
@@ -104,68 +103,105 @@ function animate(){
   projectiles.forEach((projectile => {
     projectile.update()
   }))
-
+  
   fallingObjects.forEach((objects)=>{
     objects.update()
   })
-
+  
   fallingObjects.forEach((obj, objIdx) => {
     obj.update()
-
+    
+    // ################### game over ###############
     if (obj.y === 470){
       cancelAnimationFrame(animation)
-      playerScore.innerHTML = Number(score)
+      gameOverScore.innerHTML = Number(score)
       gameOver.style.display = 'flex'
     }
-
     projectiles.forEach((project, projIdx) => {
       let  distance = Math.hypot(project.x - obj.x, project.y - obj.y)
-
-// ######### removing falling object and projectile also gain points ########
+      
+      // ######### removing falling object and projectile also gain points ########
       if (distance - obj.radius - project.radius < 1){
-        fallingObjects.splice(objIdx, 1)
-        projectiles.splice(projIdx, 1)
-        score += 100
-        playerScore.innerHTML = Number(score)
+        setTimeout(()=>{
+          fallingObjects.splice(objIdx, 1)
+          projectiles.splice(projIdx, 1)
+          score += 100
+          playerScore.innerHTML = Number(score)
+        })
       }
     })
   })
 }
-// ############### space bar pressed #######################
 
-addEventListener('keypress', function(e) {
-  if (e.keyCode === 32)
-  projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
-})
-// ############# left or right button pressed #################
+// ############# spacebar/paused /left/ right button pressed #################
 document.addEventListener('keydown', function(e){
+  
   switch (e.keyCode){
+    case 32:
+      console.log('spacebar')
+      projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
+      break;
     case 37:
-    player.x += -10
-    x += -10
-    break;
+        player.x += -10
+        x += -10
+        console.log('left right')
+        break;
     case 39:
-    player.x += 10
-    x += 10
-    break;
-  }
-  if (player.x > 490){
-    x = 490
-    player.x = 490
-  } 
-  if (player.x < 10){
-    x = 10
-    player.x = 10
-  }
-})
-
-const modal = document.querySelector('#modal')
-
-modal.addEventListener('click', function(){
-  console.log('modal')
-  animate()
-  spawnObjects()
-  modal.style.display = 'none'
-})
-
-
+          player.x += 10
+          x += 10
+          console.log('left right')
+          break;
+    case 82:
+      window.location.reload()
+      break;
+    case 80:
+      if (gamePaused){
+        gamePaused = false
+        console.log('paused')
+        cancelAnimationFrame(animation)
+        paused.style.display = 'flex'
+      } else {
+          console.log('not paused')
+          paused.style.display = 'none'
+          gamePaused = true
+          window.requestAnimationFrame(animate)
+            }
+          }
+          if (player.x > 490){
+            x = 490
+            player.x = 490
+          } 
+          if (player.x < 10){
+            x = 10
+            player.x = 10
+          }
+        })
+        
+        const modal = document.querySelector('#modal')
+        const paused = document.querySelector('#pause')
+        
+        // ########### start game ###########
+        modal.addEventListener('click', function(){
+          animate()
+          spawnObjects()
+          modal.style.display = 'none'
+        })
+        
+        // ######### restart ###########
+        function restart(){
+          window.cancelAnimationFrame(animation)
+          c.clearRect(0, 0, canvas.width, canvas.height)
+          player = new Player(canvas.width /2, canvas.height -10, 10, 'green')
+          projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2})
+          projectiles = [];
+          fallingObjects = [];
+          score = 0
+          gameOverScore.innerHTML = 0
+          playerScore.innerHTML = 0
+          spawnObjects()
+          window.requestAnimationFrame(animate)
+        }
+        gameOver.addEventListener('click', function(){
+          window.location.reload()
+        })
+        
