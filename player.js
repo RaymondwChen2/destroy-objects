@@ -2,6 +2,8 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
 const playerScore = document.querySelector('#score')
+const gameOver = document.querySelector('#game-over')
+
     
 canvas.width = 500;
 canvas.height = 500;
@@ -112,6 +114,8 @@ function animate(){
 
     if (obj.y === 470){
       cancelAnimationFrame(animation)
+      playerScore.innerHTML = Number(score)
+      gameOver.style.display = 'flex'
     }
 
     projectiles.forEach((project, projIdx) => {
@@ -122,7 +126,6 @@ function animate(){
         fallingObjects.splice(objIdx, 1)
         projectiles.splice(projIdx, 1)
         score += 100
-        console.log(score)
         playerScore.innerHTML = Number(score)
       }
     })
@@ -130,7 +133,7 @@ function animate(){
 }
 // ############### space bar pressed #######################
 
-addEventListener('keydown', function(e) {
+addEventListener('keypress', function(e) {
   if (e.keyCode === 32)
   projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
 })
@@ -156,6 +159,13 @@ document.addEventListener('keydown', function(e){
   }
 })
 
-animate()
-spawnObjects()
+const modal = document.querySelector('#modal')
+
+modal.addEventListener('click', function(){
+  console.log('modal')
+  animate()
+  spawnObjects()
+  modal.style.display = 'none'
+})
+
 

@@ -10,11 +10,28 @@ body{
   background-color: black;
 }
 
-.modal{
+#modal{
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
   color: white;
-  width: 100%;
-  height: 100%
+  width: 500;
+  height: 500;
+}
+
+#game-over{
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  width: 500;
+  height: 500;
 }
 
 .score{
