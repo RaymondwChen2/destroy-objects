@@ -8,8 +8,8 @@ let gamePaused = true
 let over = true
 
     
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 1000;
+canvas.height = 800;
 
 // ###################### Player #####################
 class Player {
@@ -28,9 +28,9 @@ class Player {
   }
 }
 let x = canvas.width /2
-let y = canvas.height - 10
+let y = canvas.height - 30
 
-let player = new Player(x, y, 10, 'green')
+let player = new Player(x, y, 30, 'green')
 player.draw()
 
 // ################ Projectile ####################
@@ -85,11 +85,11 @@ function spawnObjects(){
   setInterval(()=> {
     const x = Math.random() * canvas.width
     const y = 0
-    const radius = 20
+    const radius = 40
     const color = 'blue'
     const velocity = {x: 0, y: 1}
     fallingObjects.push(new FallingObjects(x, y, radius, color, velocity))
-  }, 1000)
+  }, 2500)
 }
 
 let projectiles = []
@@ -112,7 +112,7 @@ function animate(){
     obj.update()
     
     // ################### game over ###############
-    if (obj.y === 470){
+    if (obj.y === 740){
       cancelAnimationFrame(animation)
       gameOverScore.innerHTML = Number(score)
       gameOver.style.display = 'flex'
@@ -139,16 +139,16 @@ document.addEventListener('keydown', function(e){
   switch (e.keyCode){
     case 32:
       console.log('spacebar')
-      projectiles.push(new Projectile(x, y, 3, 'red', {x: 0, y: -2}))
+      projectiles.push(new Projectile(x, y, 12, 'red', {x: 0, y: -2}))
       break;
     case 37:
-        player.x += -10
-        x += -10
+        player.x += -20
+        x += -20
         console.log('left right')
         break;
     case 39:
-          player.x += 10
-          x += 10
+          player.x += 20
+          x += 20
           console.log('left right')
           break;
     case 82:
@@ -167,9 +167,9 @@ document.addEventListener('keydown', function(e){
           window.requestAnimationFrame(animate)
             }
           }
-          if (player.x > 490){
-            x = 490
-            player.x = 490
+          if (player.x > 990){
+            x = 990
+            player.x = 990
           } 
           if (player.x < 10){
             x = 10
@@ -191,8 +191,8 @@ document.addEventListener('keydown', function(e){
         function restart(){
           window.cancelAnimationFrame(animation)
           c.clearRect(0, 0, canvas.width, canvas.height)
-          player = new Player(canvas.width /2, canvas.height -10, 10, 'green')
-          projectile = new Projectile (x, y , 3, 'red', {x: 0, y: -2})
+          player = new Player(canvas.width /2, canvas.height -10, 30, 'green')
+          projectile = new Projectile (x, y , 10, 'red', {x: 0, y: -2})
           projectiles = [];
           fallingObjects = [];
           score = 0
