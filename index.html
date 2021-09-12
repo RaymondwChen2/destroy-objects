@@ -1,0 +1,48 @@
+<head>
+  <script src="https://kit.fontawesome.com/f3fb556982.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class='socials'>
+    <a href="https://github.com/RaymondwChen2" target="_blank">
+      <i class="fab fa-github"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/raymond-chen-70b633211/" target="_blank">
+      <i class="fab fa-linkedin"></i>
+    </a>
+    <a href="https://angel.co/u/raymond-chen-34" target="_blank">
+      <i class="fa fa-angellist" aria-hidden="true"></i>
+    </a>
+      <a href="https://raymondwchen.com/" target="_blank">
+        <i class="fa fa-user" aria-hidden="true"></i>
+      </a>
+  </div>
+  <div class='score'>Score: <span><span id='score'>0</span></span></div>
+  <div id='modal-container'>
+    <div id='modal'>
+      <h1>User Instructions</h1>
+      <div class='instruction-div'>
+          <p>- Survive as long as you can -</p>
+          <p>- Destroy invading enemy ships -</p>
+          <p>- Use the left arrow key to move left -</p>
+          <p>- Use the right arrow key to move right -</p>
+          <p>- Press the spacebar to shoot -</p>
+          <p>- Press "P" to pause -</p>
+          <p>- Press "R" to reset -</p>
+          <h2 class='start'>-Click screen to start-</h2>
+      </div>
+    </div>
+    <div id='game-over'>
+      <h1>Game Over</h1>
+      <div>Score: <span><span id='game-over-score'>0</span></span> </div>
+      <p>Click screen to restart</p>
+    </div>
+    <div id='pause'>Paused</div>
+  </div>
+  <canvas class='classCanvas'></canvas>
+  <link rel="stylesheet" href="./game.css">
+  <script src="./player.js"></script>
+  <title>Destroy-Objects</title>
+  <div>music</div>
+</body>
+
